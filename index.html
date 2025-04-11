@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDA System</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #041c2c;
+      color: #aef1f5;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 300px;
+      background-color: #062e42;
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .sidebar h2 {
+      font-size: 20px;
+      border-bottom: 1px solid #0c5460;
+      padding-bottom: 10px;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar li {
+      padding: 10px 0;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .sidebar li:hover {
+      background-color: #0b3b50;
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .entry {
+      background: #09384f;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 255, 255, 0.1);
+      display: none;
+    }
+    .entry.active {
+      display: block;
+    }
+    .admin-panel {
+      margin-top: 30px;
+      padding-top: 10px;
+      border-top: 1px solid #0c5460;
+    }
+    .admin-panel input {
+      background: #021116;
+      border: 1px solid #0c5460;
+      color: #aef1f5;
+      padding: 5px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .admin-panel button {
+      width: 100%;
+      padding: 10px;
+      background-color: #0c5460;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>PDA Categories</h2>
+    <ul>
+      <li onclick="loadEntry('entry1')">Fauna: Vermithal</li>
+      <li onclick="loadEntry('entry2')">Logs: Aurora Transmission</li>
+      <li onclick="loadEntry('entry3')">Blueprint: Oxygen Tank</li>
+    </ul>
+    <div class="admin-panel">
+      <input type="password" id="adminPassword" placeholder="Enter admin code...">
+      <button onclick="unlockAll()">Unlock All Entries</button>
+    </div>
+  </div>
+  <div class="content" id="pdaContent">
+    <div class="entry" id="entry1">
+      <h3>Fauna – Leviathan Class: Vermithal</h3>
+      <p><strong>Scientific ID:</strong> C034</p>
+      <p><strong>Threat Level:</strong> Critical</p>
+      <p><strong>Behavior:</strong> Predatory, territorial, acoustically aware of submersibles.</p>
+      <p><strong>Description:</strong> The Vermithal is a deep-sea apex predator adapted for ambush in bioluminescent abyssal regions. Capable of disrupting sonar and generating bio-electric pulses. Avoid direct contact.</p>
+    </div>
+    <div class="entry" id="entry2">
+      <h3>Data Log – Aurora Transmission #47-B</h3>
+      <p><strong>Source:</strong> Lifepod 7</p>
+      <p><strong>Status:</strong> Corrupted, 53% recovered</p>
+      <p><strong>Log:</strong> "…structure visible to the east. It's not natural. Sending last known coordinates..."</p>
+    </div>
+    <div class="entry" id="entry3">
+      <h3>Blueprint – Standard Oxygen Tank</h3>
+      <p><strong>Required Materials:</strong></p>
+      <ul>
+        <li>2x Titanium</li>
+        <li>1x Glass</li>
+      </ul>
+      <p>Increases oxygen capacity from 45 to 75 seconds. Equip in inventory to activate.</p>
+    </div>
+  </div>
+
+  <script>
+    const unlocked = {
+      entry1: false,
+      entry2: false,
+      entry3: false
+    };
+
+    const correctPassword = "admin42"; // ← muda essa senha como quiser
+
+    function loadEntry(entryId) {
+      if (!unlocked[entryId]) return alert("Access denied. Entry locked.");
+      document.querySelectorAll('.entry').forEach(e => e.classList.remove('active'));
+      document.getElementById(entryId).classList.add('active');
+    }
+
+    function unlockAll() {
+      const pass = document.getElementById("adminPassword").value;
+      if (pass === correctPassword) {
+        for (let key in unlocked) unlocked[key] = true;
+        alert("All entries unlocked.");
+      } else {
+        alert("Incorrect password.");
+      }
+    }
+  </script>
+</body>
+</html>
